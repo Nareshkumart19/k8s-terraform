@@ -22,18 +22,20 @@ pipeline {
     } */
 
     // build
-        stage('init') {
+    stages {
+        stage('Build') {
             steps {
                 script {
                     withAWS(credentials: 'aws-cred', region: 'us-east-1') {
                         sh """
                             cd 00-vpc
                             terraform init -reconfigure
+  
                         """
                     }
                 }
-            }
-        } 
+        }  
+    }
 
     post { 
         always { 
