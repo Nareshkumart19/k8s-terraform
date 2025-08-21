@@ -33,7 +33,7 @@ pipeline {
                 script {
                     withAWS(credentials: 'aws-cred', region: 'us-east-1') {
                         sh '''
-                            cd 10-sg
+                            cd 20-bastion
                             terraform init -reconfigure
                         '''
                     }
@@ -46,7 +46,7 @@ pipeline {
                 script {
                     withAWS(credentials: 'aws-cred', region: 'us-east-1') {
                         sh '''
-                            cd 10-sg
+                            cd 20-bastion
                             terraform plan
                         '''
                     }
@@ -59,56 +59,23 @@ pipeline {
                 script {
                     withAWS(credentials: 'aws-cred', region: 'us-east-1') {
                         sh '''
-                            cd 10-sg
+                            cd 20-bastion
                             terraform apply -auto-approve
                         '''
                     }
                 }
             }
-        }    
-        stage(' Bastion ACM EKS') {
-            // PARALLEL EXECUTION
-            parallel{
-                stage('Trigger bastion') {
-                    steps {
-                        script {
-                            build job: '20-bastion',
-                            wait: false,       // VPC will not wait for SG pipeline completion
-                            propagate: false   // Even if SG fails, VPC will not be affected
-                        }
-                    }
-                }
-                stage('Trigger EKS') {
-                    steps {
-                        script {
-                            build job: '80-eks',
-                            wait: false,       // VPC will not wait for SG pipeline completion
-                            propagate: false   // Even if SG fails, VPC will not be affected
-                        }
-                    }
-                }
-                stage('Trigger acm') {
-                    steps {
-                        script {
-                            build job: '60--acm',
-                            wait: false,       // VPC will not wait for SG pipeline completion
-                            propagate: false   // Even if SG fails, VPC will not be affected
-                        }
-                    }
-                }
-            }
-        }
-        // Sequential
-        stage('Trigger acm') {
-            steps {
-                script {
-                    build job: '70-frontend-alb',
-                    wait: false,       // VPC will not wait for SG pipeline completion
-                    propagate: false   // Even if SG fails, VPC will not be affected
-                }
-            }
         }
 
+/*         stage('Trigger SG') {
+            steps {
+                script {
+                    build job: '20-bastion',
+                          wait: false,       // VPC will not wait for SG pipeline completion
+                          propagate: false   // Even if SG fails, VPC will not be affected
+                }
+            }
+        } */
     }
 
     post {
