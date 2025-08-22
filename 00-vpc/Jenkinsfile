@@ -71,13 +71,13 @@ pipeline {
                 }
             }
         }
-
+        // dowm stream job
         stage('Trigger SG') {
             steps {
                 script {
                     build job: '10-sg',
-                    wait: false,       // VPC will not wait for SG pipeline completion
-                    propagate: false   // Even if SG fails, VPC will not be affected
+                    propagate: false,  // Even if SG fails, VPC will not be affected
+                    wait: false       // VPC will not wait for SG pipeline completion
                 }
             }
         }

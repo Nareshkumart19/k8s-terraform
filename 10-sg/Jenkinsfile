@@ -73,8 +73,9 @@ pipeline {
                     steps {
                         script {
                             build job: '20-bastion',
-                            wait: false,       // VPC will not wait for SG pipeline completion
-                            propagate: false   // Even if SG fails, VPC will not be affected
+                            propagate: false,  // Even if SG fails, VPC will not be affected
+                            wait: false       // VPC will not wait for SG pipeline completion
+
                         }
                     }
                 }
@@ -91,8 +92,8 @@ pipeline {
                     steps {
                         script {
                             build job: '60--acm',
-                            wait: false,       // VPC will not wait for SG pipeline completion
-                            propagate: false   // Even if SG fails, VPC will not be affected
+                            propagate: false,  // Even if SG fails, VPC will not be affected
+                            wait: false       // VPC will not wait for SG pipeline completion
                         }
                     }
                 }
@@ -103,8 +104,8 @@ pipeline {
             steps {
                 script {
                     build job: '70-frontend-alb',
-                    wait: false,       // VPC will not wait for SG pipeline completion
-                    propagate: false   // Even if SG fails, VPC will not be affected
+                    propagate: false,  // Even if SG fails, VPC will not be affected
+                    wait: false       // VPC will not wait for SG pipeline completion
                 }
             }
         }
