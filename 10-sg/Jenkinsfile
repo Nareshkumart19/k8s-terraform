@@ -78,7 +78,7 @@ pipeline {
                         }
                     }
                 }
-                stage('Trigger EKS') {
+/*                 stage('Trigger EKS') {
                     steps {
                         script {
                             build job: '80-eks',
@@ -86,7 +86,7 @@ pipeline {
                             propagate: false   // Even if SG fails, VPC will not be affected
                         }
                     }
-                }
+                } */
                 stage('Trigger acm') {
                     steps {
                         script {
