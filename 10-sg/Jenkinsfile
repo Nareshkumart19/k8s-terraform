@@ -103,7 +103,7 @@ pipeline {
         stage('Trigger acm') {
             steps {
                 script {
-                    build job: '70-frontend-alb',
+                    build job: '70-frontend_alb',
                     propagate: false,  // Even if SG fails, VPC will not be affected
                     wait: false       // VPC will not wait for SG pipeline completion
                 }
