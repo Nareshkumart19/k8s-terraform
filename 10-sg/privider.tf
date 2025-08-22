@@ -7,8 +7,8 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "84s-remote-state-naresh"
-    key    = "roboshop-dev-sg-naresh"
+    bucket = "sg-remote-state"
+    key    = "sg-remote-state-naresh"
     region = "us-east-1"
     #dynamodb_table = "84s-remote-state-naresh"
     encrypt      = true
